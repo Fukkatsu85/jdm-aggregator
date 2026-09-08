@@ -430,29 +430,59 @@ def main():
 
     cars = []
 
-    for listing in listings:
+for index, listing in enumerate(listings, start=1):
 
-        car = {
-            "id": f"beforward-{listing['ref_no']}",
-            "source": "BE FORWARD",
-            "ref_no": listing["ref_no"],
-            "make": listing["make"],
-            "model": listing["model"],
-            "chassis": listing["chassis"],
-            "year": listing["year"],
-            "month": listing["month"],
-            "price_usd": listing["price_usd"],
-            "mileage_km": listing["mileage_km"],
-            "source_url": listing["source_url"],
-            "photo_urls": (
-                [listing["thumbnail_url"]]
-                if listing["thumbnail_url"]
-                else []
-            )
-        }
+    print(
+        f"Fetching gallery {index}/{len(listings)}: "
+        f"{listing['ref_no']}"
+    )
 
-        cars.append(car)
+    try:
+        photos = get_detail_photos(
+            listing["source_url"]
+        )
+    except Exception as error:
+        print(
+            "Gallery error:",
+            error
+        )
+        photos = []
 
+    if (
+        not photos
+        and listing["thumbnail_url"]
+    ):
+        photos = [
+            listing["thumbnail_url"]
+                .replace(
+                    "/medium/",
+                    "/large/"
+                )
+                .split("?")[0]
+        ]
+
+    car = {
+        "id": f"beforward-{listing['ref_no']}",
+        "source": "BE FORWARD",
+        "ref_no": listing["ref_no"],
+        "make": listing["make"],
+        "model": listing["model"],
+        "chassis": listing["chassis"],
+        "year": listing["year"],
+        "month": listing["month"],
+        "price_usd": listing["price_usd"],
+        "mileage_km": listing["mileage_km"],
+        "source_url": listing["source_url"],
+        "photo_urls": photos
+    }
+
+    cars.append(car)
+
+    print(
+        f"  Photos found: {len(photos)}"
+    )
+
+    time.sleep(0.5)
     with open(
         "data/cars.json",
         "w",
