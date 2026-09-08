@@ -60,6 +60,101 @@ def download_html(url):
         )
 
 
+def parse_inventory_metadata(
+    link,
+    vehicle_no
+):
+
+    card = None
+    current = link
+
+    marker = re.compile(
+        rf"車両No[.\s:：]*"
+        rf"{re.escape(vehicle_no)}"
+    )
+
+    for _ in range(10):
+
+        current = current.parent
+
+        if current is None:
+            break
+
+        text = current.get_text(
+            " ",
+            strip=True
+        )
+
+        if (
+            marker.search(text)
+            and
+            re.search(
+                r"(19|20)\d{2}年",
+                text
+            )
+        ):
+            card = current
+            break
+
+    if card is None:
+        return {}
+
+    strings = [
+        text.strip()
+        for text in card.stripped_strings
+        if text.strip()
+    ]
+
+    text = " ".join(strings)
+
+    make = ""
+
+    for japanese, english in (
+        MAKE_NAMES.items()
+    ):
+
+        if japanese in strings:
+            make = english
+            break
+
+    price_jpy = None
+
+    price_match = re.search(
+        r"([\d.]+)\s*万円",
+        text
+    )
+
+    if price_match:
+        price_jpy = int(
+            float(
+                price_match.group(1)
+            )
+            * 10000
+        )
+
+    store = ""
+
+    store_match = re.search(
+        r"(ガレージアール\s*"
+        r"[^\s]+店|"
+        r"KING-BUYER\s*"
+        r"[^\s]+店)",
+        text
+    )
+
+    if store_match:
+        store = (
+            store_match.group(1)
+            .strip()
+        )
+
+    return {
+        "make": make,
+        "price_jpy": price_jpy,
+        "store": store,
+    }
+
+
 def get_inventory():
 
     vehicles = []
@@ -122,13 +217,19 @@ def get_inventory():
 
             seen.add(vehicle_no)
 
+            metadata = parse_inventory_metadata(
+                link,
+                vehicle_no
+            )
+
             vehicles.append({
                 "source": "GARAGE-R",
                 "source_id": vehicle_no,
                 "source_url": urljoin(
                     BASE_URL,
                     href
-                )
+                ),
+                **metadata
             })
 
             page_new_count += 1
@@ -484,7 +585,12 @@ def fetch_vehicle(vehicle):
 
             "source_id": vehicle_no,
 
-            "make": make,
+            "make":
+                make
+                or vehicle.get(
+                    "make",
+                    ""
+                ),
 
             "model": model,
 
@@ -501,6 +607,9 @@ def fetch_vehicle(vehicle):
             "price_jpy":
                 parse_price(
                     page_text
+                )
+                or vehicle.get(
+                    "price_jpy"
                 ),
 
             "mileage_km":
@@ -575,6 +684,10 @@ def fetch_vehicle(vehicle):
             "store":
                 get_store(
                     soup
+                )
+                or vehicle.get(
+                    "store",
+                    ""
                 ),
 
             "source_url":
