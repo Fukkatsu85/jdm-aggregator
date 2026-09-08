@@ -44,7 +44,8 @@ MODEL_NAMES = {
     "インプレッサ": "Impreza",
     "WRX": "WRX",
     "BRZ": "BRZ",
-    "ランサーエボリューション": "Lancer Evolution",
+    "ランサーエボリューション":
+        "Lancer Evolution",
     "シビック": "Civic",
     "インテグラ": "Integra",
     "S2000": "S2000",
@@ -75,49 +76,87 @@ def download_html(url):
         )
 
 
-def get_inventory_price(
-    soup,
-    vehicle_no,
-):
+def build_inventory_price_map(soup):
     strings = [
         text.strip()
         for text in soup.stripped_strings
         if text.strip()
     ]
 
-    marker = re.compile(
-        rf"車両No[.\s:：]*{re.escape(vehicle_no)}"
-    )
+    prices = {}
 
     for index, text in enumerate(strings):
-        if not marker.search(text):
+        if "車両No" not in text:
             continue
 
-        for candidate in strings[
-            index + 1:index + 12
-        ]:
-            if candidate.strip().lower() == "ask":
-                return None
+        vehicle_no = None
 
-            match = re.fullmatch(
-                r"([\d,.]+)\s*万円",
-                candidate,
+        number_match = re.search(
+            r"(\d{5,})",
+            text,
+        )
+
+        if number_match:
+            vehicle_no = (
+                number_match.group(1)
             )
 
-            if match:
-                value = (
-                    match.group(1)
+        else:
+            for candidate in strings[
+                index + 1:index + 4
+            ]:
+                number_match = re.fullmatch(
+                    r"\d{5,}",
+                    candidate,
+                )
+
+                if number_match:
+                    vehicle_no = candidate
+                    break
+
+        if not vehicle_no:
+            continue
+
+        price_jpy = None
+
+        for candidate in strings[
+            index + 1:index + 15
+        ]:
+            candidate_clean = (
+                candidate.strip()
+            )
+
+            if (
+                candidate_clean.lower()
+                == "ask"
+            ):
+                price_jpy = None
+                break
+
+            price_match = re.search(
+                r"([\d,.]+)"
+                r"\s*万円",
+                candidate_clean,
+            )
+
+            if price_match:
+                numeric = (
+                    price_match.group(1)
                     .replace(",", "")
                 )
 
-                return int(
-                    float(value)
+                price_jpy = int(
+                    float(numeric)
                     * 10000
                 )
 
-        break
+                break
 
-    return None
+        prices[vehicle_no] = (
+            price_jpy
+        )
+
+    return prices
 
 
 def get_inventory():
@@ -127,10 +166,11 @@ def get_inventory():
     for page in range(1, 100):
         if page == 1:
             url = INVENTORY_URL
+
         else:
             url = (
-                f"{INVENTORY_URL}"
-                f"?page={page}"
+                INVENTORY_URL
+                + f"?page={page}"
             )
 
         print(
@@ -143,14 +183,21 @@ def get_inventory():
 
         except Exception as error:
             print(
-                f"Stopping at page {page}:",
-                error,
+                f"Stopping at page "
+                f"{page}: "
+                f"{error}"
             )
             break
 
         soup = BeautifulSoup(
             html,
             "html.parser",
+        )
+
+        price_map = (
+            build_inventory_price_map(
+                soup
+            )
         )
 
         page_new_count = 0
@@ -181,13 +228,6 @@ def get_inventory():
 
             seen.add(vehicle_no)
 
-            price_jpy = (
-                get_inventory_price(
-                    soup,
-                    vehicle_no,
-                )
-            )
-
             vehicles.append({
                 "source":
                     "GARAGE-R",
@@ -202,7 +242,9 @@ def get_inventory():
                     ),
 
                 "price_jpy":
-                    price_jpy,
+                    price_map.get(
+                        vehicle_no
+                    ),
             })
 
             page_new_count += 1
@@ -211,6 +253,17 @@ def get_inventory():
             f"New vehicles on page "
             f"{page}: "
             f"{page_new_count}"
+        )
+
+        print(
+            f"Prices found on page "
+            f"{page}: "
+            f"{sum(
+                1
+                for value
+                in price_map.values()
+                if value is not None
+            )}"
         )
 
         if page_new_count == 0:
@@ -344,7 +397,7 @@ def parse_mileage(value):
     return None
 
 
-def parse_price(soup):
+def parse_detail_price(soup):
     strings = [
         text.strip()
         for text in soup.stripped_strings
@@ -363,7 +416,7 @@ def parse_price(soup):
 
         sample = " ".join(
             strings[
-                index:index + 6
+                index:index + 8
             ]
         )
 
@@ -371,18 +424,19 @@ def parse_price(soup):
             return None
 
         match = re.search(
-            r"([\d,.]+)\s*万円",
+            r"([\d,.]+)"
+            r"\s*万円",
             sample,
         )
 
         if match:
-            value = (
+            numeric = (
                 match.group(1)
                 .replace(",", "")
             )
 
             return int(
-                float(value)
+                float(numeric)
                 * 10000
             )
 
@@ -659,6 +713,24 @@ def fetch_vehicle(vehicle):
             vehicle_no,
         )
 
+        inventory_price = (
+            vehicle.get(
+                "price_jpy"
+            )
+        )
+
+        if inventory_price is None:
+            price_jpy = (
+                parse_detail_price(
+                    soup
+                )
+            )
+
+        else:
+            price_jpy = (
+                inventory_price
+            )
+
         car = {
             "id":
                 f"garage-r-"
@@ -690,12 +762,7 @@ def fetch_vehicle(vehicle):
                 ),
 
             "price_jpy":
-                vehicle.get(
-                    "price_jpy"
-                )
-                or parse_price(
-                    soup
-                ),
+                price_jpy,
 
             "mileage_km":
                 parse_mileage(
@@ -809,6 +876,19 @@ def main():
         f"{len(vehicles)}"
     )
 
+    priced = sum(
+        1
+        for vehicle in vehicles
+        if vehicle.get(
+            "price_jpy"
+        ) is not None
+    )
+
+    print(
+        f"FOUND GARAGE-R PRICES: "
+        f"{priced}"
+    )
+
     cars = []
     errors = 0
 
@@ -862,6 +942,7 @@ def main():
                 f"{vehicle_no} "
                 f"{car['make']} "
                 f"{car['model']} "
+                f"¥{car['price_jpy']} "
                 f"- "
                 f"{len(car['photo_urls'])} "
                 f"photos"
