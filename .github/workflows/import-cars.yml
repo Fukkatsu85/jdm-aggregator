@@ -20,9 +20,9 @@ jobs:
 
       - name: Sync cars to Fukkatsu
         run: |
-          cp data/cars.json fukkatsu-site/Cars/data/cars.json
+          cp "$GITHUB_WORKSPACE/data/cars.json" "$GITHUB_WORKSPACE/fukkatsu-site/Cars/data/cars.json"
 
-          cd fukkatsu-site
+          cd "$GITHUB_WORKSPACE/fukkatsu-site"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
