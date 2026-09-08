@@ -667,10 +667,11 @@ def main():
     listings = []
     seen = set()
 
-    for listing in (
-        s15_listings +
-        s13_listings
-    ):
+for listing in (
+    s15_listings +
+    s14_listings +
+    s13_listings
+):
 
         ref_no = listing["ref_no"]
 
