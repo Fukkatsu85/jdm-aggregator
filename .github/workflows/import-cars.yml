@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+       - name: Stage car inventory for sync
+        run: |
+          cp data/cars.json "$RUNNER_TEMP/cars.json"
+          
       - name: Check out Fukkatsu site
         uses: actions/checkout@v5
         with:
