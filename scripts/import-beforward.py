@@ -26,6 +26,10 @@ S13_SEARCH_URLS = [
     BASE_URL + "/stocklist/make=3/model=452/model_code=E-KS13",
 ]
 
+S14_SEARCH_URLS = [
+    BASE_URL + "/stocklist/make=3/model=452/model_code=S14",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=CS14",
+]
 
 def download_html(url):
 
