@@ -44,8 +44,7 @@ MODEL_NAMES = {
     "インプレッサ": "Impreza",
     "WRX": "WRX",
     "BRZ": "BRZ",
-    "ランサーエボリューション":
-        "Lancer Evolution",
+    "ランサーエボリューション": "Lancer Evolution",
     "シビック": "Civic",
     "インテグラ": "Integra",
     "S2000": "S2000",
@@ -54,66 +53,58 @@ MODEL_NAMES = {
 
 
 def download_html(url):
-
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent":
+            "User-Agent": (
                 "Mozilla/5.0 "
                 "(Windows NT 10.0; Win64; x64) "
                 "AppleWebKit/537.36 "
                 "Chrome/152 Safari/537.36"
-        }
+            )
+        },
     )
 
     with urllib.request.urlopen(
         request,
-        timeout=30
+        timeout=30,
     ) as response:
-
         return response.read().decode(
             "utf-8",
-            errors="replace"
+            errors="replace",
         )
+
 
 def get_inventory_price(
     soup,
-    vehicle_no
+    vehicle_no,
 ):
-
     strings = [
         text.strip()
         for text in soup.stripped_strings
         if text.strip()
     ]
 
-    marker_patterns = [
-        f"車両No. {vehicle_no}",
-        f"車両No.{vehicle_no}",
-        f"車両No {vehicle_no}",
-    ]
+    marker = re.compile(
+        rf"車両No[.\s:：]*{re.escape(vehicle_no)}"
+    )
 
-    for index, text in enumerate(
-        strings
-    ):
-
-        if text not in marker_patterns:
+    for index, text in enumerate(strings):
+        if not marker.search(text):
             continue
 
         for candidate in strings[
-            index + 1:index + 10
+            index + 1:index + 12
         ]:
-
-            if candidate.lower() == "ask":
+            if candidate.strip().lower() == "ask":
                 return None
 
             match = re.fullmatch(
                 r"([\d,.]+)\s*万円",
-                candidate
+                candidate,
             )
 
             if match:
-
                 value = (
                     match.group(1)
                     .replace(",", "")
@@ -127,19 +118,19 @@ def get_inventory_price(
         break
 
     return None
-def get_inventory():
 
+
+def get_inventory():
     vehicles = []
     seen = set()
 
     for page in range(1, 100):
-
         if page == 1:
             url = INVENTORY_URL
         else:
             url = (
-                INVENTORY_URL
-                + f"?page={page}"
+                f"{INVENTORY_URL}"
+                f"?page={page}"
             )
 
         print(
@@ -151,66 +142,75 @@ def get_inventory():
             html = download_html(url)
 
         except Exception as error:
-
             print(
                 f"Stopping at page {page}:",
-                error
+                error,
             )
-
             break
 
         soup = BeautifulSoup(
             html,
-            "html.parser"
+            "html.parser",
         )
 
         page_new_count = 0
 
         for link in soup.find_all(
             "a",
-            href=True
+            href=True,
         ):
-
             href = link.get(
                 "href",
-                ""
+                "",
             )
 
             match = re.fullmatch(
                 r"/cars/(\d+)",
-                href
+                href,
             )
 
             if not match:
                 continue
 
-            vehicle_no = match.group(1)
+            vehicle_no = (
+                match.group(1)
+            )
 
             if vehicle_no in seen:
                 continue
 
             seen.add(vehicle_no)
 
-            price_jpy = get_inventory_price(
-    soup,
-    vehicle_no
-)
+            price_jpy = (
+                get_inventory_price(
+                    soup,
+                    vehicle_no,
+                )
+            )
 
-vehicles.append({
-    "source": "GARAGE-R",
-    "source_id": vehicle_no,
-    "source_url": urljoin(
-        BASE_URL,
-        href
-    ),
-    "price_jpy": price_jpy
-})
+            vehicles.append({
+                "source":
+                    "GARAGE-R",
+
+                "source_id":
+                    vehicle_no,
+
+                "source_url":
+                    urljoin(
+                        BASE_URL,
+                        href,
+                    ),
+
+                "price_jpy":
+                    price_jpy,
+            })
 
             page_new_count += 1
 
         print(
             f"New vehicles on page "
-            f"{page}: {page_new_count}"
+            f"{page}: "
+            f"{page_new_count}"
         )
 
         if page_new_count == 0:
@@ -222,7 +222,6 @@ vehicles.append({
 
 
 def parse_table_values(soup):
-
     labels = [
         "年式",
         "走行距離",
@@ -252,32 +251,33 @@ def parse_table_values(soup):
     ]
 
     for index, text in enumerate(strings):
-
         for label in labels:
-
             if text == label:
-
                 if index + 1 >= len(strings):
                     continue
 
-                value = strings[
-                    index + 1
-                ].strip()
+                value = (
+                    strings[
+                        index + 1
+                    ].strip()
+                )
 
                 if value in label_set:
                     continue
 
                 values[label] = value
-
                 continue
 
             if text.startswith(label):
-
-                value = text[
-                    len(label):
-                ].lstrip(
-                    "：: "
-                ).strip()
+                value = (
+                    text[
+                        len(label):
+                    ]
+                    .lstrip(
+                        "：: "
+                    )
+                    .strip()
+                )
 
                 if (
                     value
@@ -290,13 +290,12 @@ def parse_table_values(soup):
 
 
 def parse_year(value):
-
     if not value:
         return None
 
     match = re.search(
         r"(19|20)\d{2}",
-        value
+        value,
     )
 
     if not match:
@@ -308,22 +307,20 @@ def parse_year(value):
 
 
 def parse_mileage(value):
-
     if not value:
         return None
 
     text = value.replace(
         ",",
-        ""
+        "",
     )
 
     match = re.search(
         r"([\d.]+)\s*万",
-        text
+        text,
     )
 
     if match:
-
         return int(
             float(
                 match.group(1)
@@ -334,11 +331,10 @@ def parse_mileage(value):
     match = re.search(
         r"([\d.]+)\s*(?:km|K)",
         text,
-        flags=re.I
+        flags=re.I,
     )
 
     if match:
-
         return int(
             float(
                 match.group(1)
@@ -349,17 +345,13 @@ def parse_mileage(value):
 
 
 def parse_price(soup):
-
     strings = [
         text.strip()
         for text in soup.stripped_strings
         if text.strip()
     ]
 
-    for index, text in enumerate(
-        strings
-    ):
-
+    for index, text in enumerate(strings):
         if (
             "車両本体価格"
             not in text
@@ -379,21 +371,11 @@ def parse_price(soup):
             return None
 
         match = re.search(
-            r"([\d,.]+)"
-            r"\s*万\s*円",
-            sample
+            r"([\d,.]+)\s*万円",
+            sample,
         )
 
-        if not match:
-
-            match = re.search(
-                r"([\d,.]+)"
-                r"\s*万円",
-                sample
-            )
-
         if match:
-
             value = (
                 match.group(1)
                 .replace(",", "")
@@ -408,7 +390,6 @@ def parse_price(soup):
 
 
 def normalize_chassis(value):
-
     if not value:
         return ""
 
@@ -423,7 +404,6 @@ def normalize_chassis(value):
 
 
 def get_make(soup):
-
     strings = [
         text.strip()
         for text in soup.stripped_strings
@@ -431,7 +411,6 @@ def get_make(soup):
     ]
 
     for text in strings:
-
         if text in MAKE_NAMES:
             return MAKE_NAMES[text]
 
@@ -440,7 +419,6 @@ def get_make(soup):
     for japanese, english in (
         MAKE_NAMES.items()
     ):
-
         if japanese in page_text:
             return english
 
@@ -448,24 +426,20 @@ def get_make(soup):
 
 
 def get_store(soup):
-
     strings = [
         text.strip()
         for text in soup.stripped_strings
         if text.strip()
     ]
 
-    for index, text in enumerate(
-        strings
-    ):
-
+    for index, text in enumerate(strings):
         if text == "販売店名":
-
             if index + 1 < len(strings):
-
-                value = strings[
-                    index + 1
-                ].strip()
+                value = (
+                    strings[
+                        index + 1
+                    ].strip()
+                )
 
                 if value:
                     return value
@@ -473,12 +447,15 @@ def get_store(soup):
         if text.startswith(
             "販売店名"
         ):
-
-            value = text[
-                len("販売店名"):
-            ].lstrip(
-                "：: "
-            ).strip()
+            value = (
+                text[
+                    len("販売店名"):
+                ]
+                .lstrip(
+                    "：: "
+                )
+                .strip()
+            )
 
             if value:
                 return value
@@ -488,25 +465,22 @@ def get_store(soup):
 
 def get_photos(
     soup,
-    vehicle_no
+    vehicle_no,
 ):
-
     photos = []
     seen = set()
 
     for image in soup.find_all(
         "img"
     ):
-
         candidates = []
 
         for attribute in (
             "src",
             "data-src",
             "data-lazy-src",
-            "data-original"
+            "data-original",
         ):
-
             value = image.get(
                 attribute
             )
@@ -521,11 +495,9 @@ def get_photos(
         )
 
         if srcset:
-
-            for item in (
-                srcset.split(",")
+            for item in srcset.split(
+                ","
             ):
-
                 value = (
                     item
                     .strip()
@@ -538,10 +510,9 @@ def get_photos(
                     )
 
         for value in candidates:
-
             url = urljoin(
                 BASE_URL,
-                value
+                value,
             )
 
             if url in seen:
@@ -551,7 +522,7 @@ def get_photos(
                 r"\.(?:jpg|jpeg|png|webp)"
                 r"(?:\?|$)",
                 url,
-                flags=re.I
+                flags=re.I,
             ):
                 continue
 
@@ -562,7 +533,7 @@ def get_photos(
                     "icon",
                     "banner",
                     "loading",
-                    "favicon"
+                    "favicon",
                 )
             ):
                 continue
@@ -575,25 +546,25 @@ def get_photos(
 
 def parse_make_and_model(
     title,
-    grade
+    grade,
 ):
-
     make = ""
     model_jp = title.strip()
 
     for japanese, english in (
         MAKE_NAMES.items()
     ):
-
         if model_jp.startswith(
             japanese
         ):
-
             make = english
 
-            model_jp = model_jp[
-                len(japanese):
-            ].strip()
+            model_jp = (
+                model_jp[
+                    len(japanese):
+                ]
+                .strip()
+            )
 
             break
 
@@ -604,7 +575,6 @@ def parse_make_and_model(
             grade
         )
     ):
-
         model_jp = (
             model_jp[
                 :-len(grade)
@@ -614,24 +584,22 @@ def parse_make_and_model(
 
     model = MODEL_NAMES.get(
         model_jp,
-        model_jp
+        model_jp,
     )
 
     return (
         make,
         model,
-        model_jp
+        model_jp,
     )
 
 
 def fetch_vehicle(vehicle):
-
     vehicle_no = vehicle[
         "source_id"
     ]
 
     try:
-
         html = download_html(
             vehicle[
                 "source_url"
@@ -640,7 +608,7 @@ def fetch_vehicle(vehicle):
 
         soup = BeautifulSoup(
             html,
-            "html.parser"
+            "html.parser",
         )
 
         values = parse_table_values(
@@ -654,7 +622,7 @@ def fetch_vehicle(vehicle):
         title = (
             title_tag.get_text(
                 " ",
-                strip=True
+                strip=True,
             )
             if title_tag
             else ""
@@ -662,21 +630,21 @@ def fetch_vehicle(vehicle):
 
         grade = values.get(
             "グレード",
-            ""
+            "",
         )
 
         (
             title_make,
             model,
-            model_jp
+            model_jp,
         ) = parse_make_and_model(
             title,
-            grade
+            grade,
         )
 
         model_code = values.get(
             "型式",
-            ""
+            "",
         )
 
         make = (
@@ -688,7 +656,7 @@ def fetch_vehicle(vehicle):
 
         photos = get_photos(
             soup,
-            vehicle_no
+            vehicle_no,
         )
 
         car = {
@@ -722,12 +690,12 @@ def fetch_vehicle(vehicle):
                 ),
 
             "price_jpy":
-    vehicle.get(
-        "price_jpy"
-    )
-    or parse_price(
-        soup
-    ),
+                vehicle.get(
+                    "price_jpy"
+                )
+                or parse_price(
+                    soup
+                ),
 
             "mileage_km":
                 parse_mileage(
@@ -809,24 +777,22 @@ def fetch_vehicle(vehicle):
                 ],
 
             "photo_urls":
-                photos
+                photos,
         }
 
         return (
             car,
-            None
+            None,
         )
 
     except Exception as error:
-
         return (
             None,
-            str(error)
+            str(error),
         )
 
 
 def main():
-
     print()
 
     print(
@@ -856,17 +822,15 @@ def main():
     with ThreadPoolExecutor(
         max_workers=4
     ) as executor:
-
         results = executor.map(
             fetch_vehicle,
-            vehicles
+            vehicles,
         )
 
         for index, result in enumerate(
             results,
-            start=1
+            start=1,
         ):
-
             car, error = result
 
             vehicle_no = vehicles[
@@ -874,7 +838,6 @@ def main():
             ]["source_id"]
 
             if error:
-
                 errors += 1
 
                 print(
@@ -907,14 +870,13 @@ def main():
     with open(
         "data/garage-r-cars.json",
         "w",
-        encoding="utf-8"
+        encoding="utf-8",
     ) as file:
-
         json.dump(
             cars,
             file,
             ensure_ascii=False,
-            indent=2
+            indent=2,
         )
 
     print()
