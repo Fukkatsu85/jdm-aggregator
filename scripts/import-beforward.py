@@ -657,15 +657,30 @@ def main():
 
     s13_listings = get_s13_listings()
 
-    print()
-    print(
-        f"FOUND S13 LISTINGS: "
-        f"{len(s13_listings)}"
-    )
+print()
+print(
+    f"FOUND S13 LISTINGS: "
+    f"{len(s13_listings)}"
+)
 
 
-    listings = []
-    seen = set()
+print()
+print(
+    "Downloading BE FORWARD "
+    "S14 inventory..."
+)
+
+s14_listings = get_s14_listings()
+
+print()
+print(
+    f"FOUND S14 LISTINGS: "
+    f"{len(s14_listings)}"
+)
+
+
+listings = []
+seen = set()
 
 for listing in (
     s15_listings +
