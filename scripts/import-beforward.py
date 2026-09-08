@@ -740,7 +740,19 @@ def main():
 
             cars.append(car)
 
+print()
+print(
+    "Downloading BE FORWARD "
+    "S14 inventory..."
+)
 
+s14_listings = get_s14_listings()
+
+print()
+print(
+    f"FOUND S14 LISTINGS: "
+    f"{len(s14_listings)}"
+)
     with open(
         "data/cars.json",
         "w",
