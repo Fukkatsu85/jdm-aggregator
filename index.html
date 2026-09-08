@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>JDM Inventory</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080808;
+      color: #f5f5f5;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 36px 24px 24px;
+      border-bottom: 1px solid #262626;
+      background: #0d0d0d;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    .controls {
+      max-width: 1400px;
+      margin: 24px auto;
+      padding: 0 24px;
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    select,
+    input {
+      background: #151515;
+      color: white;
+      border: 1px solid #333;
+      padding: 11px 14px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .results {
+      max-width: 1400px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+      color: #aaa;
+    }
+
+    .grid {
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 24px 60px;
+
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .car-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.2s;
+    }
+
+    .car-card:hover {
+      transform: translateY(-3px);
+      border-color: #555;
+    }
+
+    .car-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+      background: #1a1a1a;
+    }
+
+    .car-info {
+      padding: 18px;
+    }
+
+    .car-year {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .car-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .car-price {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .details {
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .view-button {
+      display: block;
+      margin-top: 16px;
+      padding: 11px 14px;
+
+      text-align: center;
+      text-decoration: none;
+
+      background: white;
+      color: black;
+
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .view-button:hover {
+      background: #ddd;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 80px 20px;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      select,
+      input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <h1>JDM Inventory</h1>
+
+    <div class="subtitle">
+      Japanese enthusiast cars from active Japan listings.
+    </div>
+
+  </div>
+</header>
+
+
+<div class="controls">
+
+  <select id="chassisFilter">
+    <option value="">All Chassis</option>
+    <option value="S13">S13</option>
+    <option value="S14">S14</option>
+    <option value="S15">S15</option>
+    <option value="180SX">180SX</option>
+  </select>
+
+
+  <input
+    id="maxPrice"
+    type="number"
+    placeholder="Max price USD"
+  >
+
+
+  <select id="sort">
+    <option value="default">
+      Default
+    </option>
+
+    <option value="price-low">
+      Price: Low to High
+    </option>
+
+    <option value="price-high">
+      Price: High to Low
+    </option>
+
+    <option value="year-new">
+      Year: Newest
+    </option>
+
+    <option value="mileage-low">
+      Mileage: Lowest
+    </option>
+  </select>
+
+</div>
+
+
+<div
+  id="results"
+  class="results"
+>
+  Loading cars...
+</div>
+
+
+<div
+  id="grid"
+  class="grid"
+>
+</div>
+
+
+<script>
+
+const DATA_URL = "data/cars.json";
+
+let allCars = [];
+
+
+function formatPrice(value) {
+
+  if (!value) {
+    return "Price unavailable";
+  }
+
+  return "$" +
+    Number(value).toLocaleString();
+}
+
+
+function formatMileage(value) {
+
+  if (!value) {
+    return "Mileage unavailable";
+  }
+
+  return Number(value).toLocaleString()
+    + " km";
+}
+
+
+function createCard(car) {
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "car-card";
+
+
+  const image =
+    car.photo_urls &&
+    car.photo_urls.length
+      ? car.photo_urls[0]
+      : "";
+
+
+  card.innerHTML = `
+
+    ${
+      image
+        ? `
+          <img
+            class="car-image"
+            src="${image}"
+            alt="${car.year || ""} Nissan Silvia"
+            loading="lazy"
+          >
+        `
+        : `
+          <div class="car-image"></div>
+        `
+    }
+
+    <div class="car-info">
+
+      <div class="car-year">
+        ${car.year || "Year unknown"}
+      </div>
+
+      <div class="car-title">
+        Nissan Silvia ${car.chassis || ""}
+      </div>
+
+      <div class="car-price">
+        ${formatPrice(car.price_usd)}
+      </div>
+
+      <div class="details">
+
+        Mileage:
+        ${formatMileage(car.mileage_km)}
+
+        <br>
+
+        Chassis:
+        ${car.chassis || "Unknown"}
+
+        <br>
+
+        Source:
+        ${car.source || "Unknown"}
+
+        <br>
+
+        Ref:
+        ${car.ref_no || ""}
+
+      </div>
+
+      <a
+        class="view-button"
+        href="${car.source_url}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View Original Listing
+      </a>
+
+    </div>
+  `;
+
+  return card;
+}
+
+
+function render() {
+
+  const chassis =
+    document
+      .getElementById("chassisFilter")
+      .value;
+
+  const maxPrice =
+    Number(
+      document
+        .getElementById("maxPrice")
+        .value
+    );
+
+  const sort =
+    document
+      .getElementById("sort")
+      .value;
+
+
+  let cars =
+    allCars.filter(car => {
+
+      if (
+        chassis &&
+        !String(car.chassis)
+          .toUpperCase()
+          .includes(chassis)
+      ) {
+        return false;
+      }
+
+      if (
+        maxPrice &&
+        car.price_usd > maxPrice
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+
+  if (sort === "price-low") {
+
+    cars.sort(
+      (a, b) =>
+        (a.price_usd || Infinity)
+        -
+        (b.price_usd || Infinity)
+    );
+
+  }
+
+
+  if (sort === "price-high") {
+
+    cars.sort(
+      (a, b) =>
+        (b.price_usd || 0)
+        -
+        (a.price_usd || 0)
+    );
+
+  }
+
+
+  if (sort === "year-new") {
+
+    cars.sort(
+      (a, b) =>
+        (b.year || 0)
+        -
+        (a.year || 0)
+    );
+
+  }
+
+
+  if (sort === "mileage-low") {
+
+    cars.sort(
+      (a, b) =>
+        (a.mileage_km || Infinity)
+        -
+        (b.mileage_km || Infinity)
+    );
+
+  }
+
+
+  const grid =
+    document.getElementById("grid");
+
+  grid.innerHTML = "";
+
+
+  for (const car of cars) {
+
+    grid.appendChild(
+      createCard(car)
+    );
+
+  }
+
+
+  document
+    .getElementById("results")
+    .textContent =
+      `${cars.length} cars found`;
+}
+
+
+async function loadCars() {
+
+  try {
+
+    const response =
+      await fetch(DATA_URL);
+
+    allCars =
+      await response.json();
+
+    render();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    document
+      .getElementById("results")
+      .textContent =
+        "Unable to load car inventory.";
+
+  }
+
+}
+
+
+document
+  .getElementById("chassisFilter")
+  .addEventListener(
+    "change",
+    render
+  );
+
+
+document
+  .getElementById("maxPrice")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+document
+  .getElementById("sort")
+  .addEventListener(
+    "change",
+    render
+  );
+
+
+loadCars();
+
+</script>
+
+</body>
+</html>
