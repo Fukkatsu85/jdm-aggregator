@@ -415,7 +415,99 @@ def get_s15_listings():
 
 
     return listings
+def get_s13_listings():
 
+    listings = []
+    seen = set()
+
+    for search_url in S13_SEARCH_URLS:
+
+        print()
+        print(
+            "Checking S13 source:",
+            search_url
+        )
+
+        for page in range(1, 10):
+
+            if page == 1:
+                url = search_url
+            else:
+                url = search_url + f"/page={page}"
+
+            print(
+                f"Downloading S13 page {page}..."
+            )
+
+            try:
+                html = download_html(url)
+
+            except Exception as error:
+                print(
+                    f"Stopping this S13 source at page {page}:",
+                    error
+                )
+                break
+
+            soup = BeautifulSoup(
+                html,
+                "html.parser"
+            )
+
+            page_new_count = 0
+
+            for link in soup.find_all(
+                "a",
+                href=True
+            ):
+
+                href = link.get(
+                    "href",
+                    ""
+                )
+
+                if (
+                    "/nissan/silvia/" not in href.lower()
+                    or "/id/" not in href.lower()
+                ):
+                    continue
+
+                listing = extract_listing(
+                    link
+                )
+
+                if not listing:
+                    continue
+
+                ref_no = listing["ref_no"]
+
+                if ref_no in seen:
+                    continue
+
+                seen.add(ref_no)
+
+                # Treat PS13 / KPS13 / KS13 etc.
+                # as S13 for the website.
+                listing["chassis"] = "S13"
+
+                listings.append(
+                    listing
+                )
+
+                page_new_count += 1
+
+            print(
+                f"New S13 listings on page {page}: "
+                f"{page_new_count}"
+            )
+
+            if page_new_count == 0:
+                break
+
+            time.sleep(1)
+
+    return listings
+    
 def fetch_gallery(listing):
 
     try:
