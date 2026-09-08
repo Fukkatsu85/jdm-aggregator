@@ -11,10 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: Stage car inventory for sync
+      - name: Check out JDM aggregator
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Import BE FORWARD S15 listings
+        run: python scripts/import-beforward.py
+
+      - name: Commit updated aggregator listings
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/cars.json
+
+          if git diff --cached --quiet; then
+            echo "Aggregator inventory already up to date."
+          else
+            git commit -m "Update BE FORWARD car listings"
+            git push
+          fi
+
+      - name: Stage car inventory for sync
         run: |
           cp data/cars.json "$RUNNER_TEMP/cars.json"
-          
+
       - name: Check out Fukkatsu site
         uses: actions/checkout@v5
         with:
