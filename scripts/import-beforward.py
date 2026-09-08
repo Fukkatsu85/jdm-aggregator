@@ -3,6 +3,7 @@ import re
 import urllib.request
 import time
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
@@ -405,6 +406,31 @@ def get_s15_listings():
 
     return listings
 
+def fetch_gallery(listing):
+
+    try:
+        photos = get_detail_photos(
+            listing["source_url"]
+        )
+
+        if (
+            not photos
+            and listing["thumbnail_url"]
+        ):
+            photos = [
+                listing["thumbnail_url"]
+                    .replace(
+                        "/medium/",
+                        "/large/"
+                    )
+                    .split("?")[0]
+            ]
+
+        return listing, photos, None
+
+    except Exception as error:
+        return listing, [], error
+
 
 def main():
 
@@ -424,40 +450,42 @@ def main():
 
     cars = []
 
-    for index, listing in enumerate(listings, start=1):
+with ThreadPoolExecutor(
+    max_workers=10
+) as executor:
+
+    futures = [
+        executor.submit(
+            fetch_gallery,
+            listing
+        )
+        for listing in listings
+    ]
+
+    for index, future in enumerate(
+        as_completed(futures),
+        start=1
+    ):
+
+        listing, photos, error = (
+            future.result()
+        )
 
         print(
-            f"Fetching gallery {index}/{len(listings)}: "
+            f"Gallery {index}/{len(listings)}: "
             f"{listing['ref_no']}"
         )
 
-        try:
-            photos = get_detail_photos(
-                listing["source_url"]
-            )
-
-        except Exception as error:
-
+        if error:
             print(
-                "Gallery error:",
+                "  Gallery error:",
                 error
             )
 
-            photos = []
-
-        if (
-            not photos
-            and listing["thumbnail_url"]
-        ):
-
-            photos = [
-                listing["thumbnail_url"]
-                    .replace(
-                        "/medium/",
-                        "/large/"
-                    )
-                    .split("?")[0]
-            ]
+        print(
+            f"  Photos found: "
+            f"{len(photos)}"
+        )
 
         car = {
             "id": f"beforward-{listing['ref_no']}",
@@ -475,12 +503,6 @@ def main():
         }
 
         cars.append(car)
-
-        print(
-            f"  Photos found: {len(photos)}"
-        )
-
-        time.sleep(0.5)
 
     with open(
         "data/cars.json",
