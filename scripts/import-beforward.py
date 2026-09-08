@@ -1,3 +1,4 @@
+import json
 import re
 import urllib.request
 import time
@@ -342,56 +343,49 @@ def main():
         f"{len(listings)}"
     )
 
+    cars = []
+
+    for listing in listings:
+
+        car = {
+            "id": f"beforward-{listing['ref_no']}",
+            "source": "BE FORWARD",
+            "ref_no": listing["ref_no"],
+            "make": listing["make"],
+            "model": listing["model"],
+            "chassis": listing["chassis"],
+            "year": listing["year"],
+            "month": listing["month"],
+            "price_usd": listing["price_usd"],
+            "mileage_km": listing["mileage_km"],
+            "source_url": listing["source_url"],
+            "photo_urls": (
+                [listing["thumbnail_url"]]
+                if listing["thumbnail_url"]
+                else []
+            )
+        }
+
+        cars.append(car)
+
+    with open(
+        "data/cars.json",
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            cars,
+            file,
+            ensure_ascii=False,
+            indent=2
+        )
+
     print()
     print(
-        "FIRST 5 LISTINGS:"
+        f"WROTE {len(cars)} CARS "
+        "TO data/cars.json"
     )
-
-
-    for listing in listings[:5]:
-
-        print()
-        print("=" * 70)
-
-        print(
-            "REF:",
-            listing["ref_no"]
-        )
-
-        print(
-            "CHASSIS:",
-            listing["chassis"]
-        )
-
-        print(
-            "YEAR:",
-            listing["year"]
-        )
-
-        print(
-            "MONTH:",
-            listing["month"]
-        )
-
-        print(
-            "PRICE USD:",
-            listing["price_usd"]
-        )
-
-        print(
-            "MILEAGE KM:",
-            listing["mileage_km"]
-        )
-
-        print(
-            "PHOTO:",
-            listing["thumbnail_url"]
-        )
-
-        print(
-            "URL:",
-            listing["source_url"]
-        )
 
 
 if __name__ == "__main__":
