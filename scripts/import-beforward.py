@@ -543,13 +543,53 @@ def main():
         "S15 inventory..."
     )
 
-    listings = get_s15_listings()
+    s15_listings = get_s15_listings()
 
     print()
     print(
         f"FOUND S15 LISTINGS: "
+        f"{len(s15_listings)}"
+    )
+
+
+    print()
+    print(
+        "Downloading BE FORWARD "
+        "S13 inventory..."
+    )
+
+    s13_listings = get_s13_listings()
+
+    print()
+    print(
+        f"FOUND S13 LISTINGS: "
+        f"{len(s13_listings)}"
+    )
+
+
+    listings = []
+    seen = set()
+
+    for listing in (
+        s15_listings +
+        s13_listings
+    ):
+
+        ref_no = listing["ref_no"]
+
+        if ref_no in seen:
+            continue
+
+        seen.add(ref_no)
+        listings.append(listing)
+
+
+    print()
+    print(
+        f"TOTAL UNIQUE CARS: "
         f"{len(listings)}"
     )
+
 
     cars = []
 
@@ -571,7 +611,8 @@ def main():
 
             print(
                 f"Gallery {index}/{len(listings)}: "
-                f"{listing['ref_no']}"
+                f"{listing['ref_no']} "
+                f"({listing['chassis']})"
             )
 
             if error:
@@ -602,6 +643,7 @@ def main():
 
             cars.append(car)
 
+
     with open(
         "data/cars.json",
         "w",
@@ -614,6 +656,7 @@ def main():
             ensure_ascii=False,
             indent=2
         )
+
 
     print()
     print(
