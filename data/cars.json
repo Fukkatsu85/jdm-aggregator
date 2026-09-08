@@ -1,1 +1,786 @@
-[]
+[
+  {
+    "id": "beforward-CE595523",
+    "source": "BE FORWARD",
+    "ref_no": "CE595523",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 6,
+    "price_usd": 13220,
+    "mileage_km": 76661,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce595523/id/16480102/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202609/16480102/CE595523_212800ed.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD528879",
+    "source": "BE FORWARD",
+    "ref_no": "CD528879",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 1,
+    "price_usd": 13700,
+    "mileage_km": 157470,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd528879/id/15484522/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202606/15484522/CD528879_1f4c5706.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BU310616",
+    "source": "BE FORWARD",
+    "ref_no": "BU310616",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": null,
+    "price_usd": 13980,
+    "mileage_km": 101733,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bu310616/id/8647767/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/8647767/BU310616_20ad9cf8.JPG?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BU466706",
+    "source": "BE FORWARD",
+    "ref_no": "BU466706",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": null,
+    "price_usd": 15140,
+    "mileage_km": 89571,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bu466706/id/8804501/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/8804501/BU466706_20a20e2a.JPG?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CB933571",
+    "source": "BE FORWARD",
+    "ref_no": "CB933571",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 6,
+    "price_usd": 15760,
+    "mileage_km": 212000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cb933571/id/13998694/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/13998694/CB933571_1de5de22.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BY807075",
+    "source": "BE FORWARD",
+    "ref_no": "BY807075",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 8,
+    "price_usd": 17130,
+    "mileage_km": 70600,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/by807075/id/11958302/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202607/11958302/BY807075_20267b2a.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CB933997",
+    "source": "BE FORWARD",
+    "ref_no": "CB933997",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 10,
+    "price_usd": 17130,
+    "mileage_km": 66912,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cb933997/id/13999122/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202601/13999122/CB933997_1c6ac1ea.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD468428",
+    "source": "BE FORWARD",
+    "ref_no": "CD468428",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 8,
+    "price_usd": 17130,
+    "mileage_km": 208000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd468428/id/15423670/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202606/15423670/CD468428_1f30f930.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE190959",
+    "source": "BE FORWARD",
+    "ref_no": "CE190959",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 5,
+    "price_usd": 17130,
+    "mileage_km": 151564,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce190959/id/16072129/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202607/16072129/CE190959_20656f1a.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW742643",
+    "source": "BE FORWARD",
+    "ref_no": "BW742643",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 10,
+    "price_usd": 17530,
+    "mileage_km": 191900,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw742643/id/10005431/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202501/10005431/BW742643_149906da.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BU694093",
+    "source": "BE FORWARD",
+    "ref_no": "BU694093",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": null,
+    "price_usd": 17940,
+    "mileage_km": 181517,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bu694093/id/9034664/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202410/9034664/BU694093_12bfdd0c.JPG?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE498565",
+    "source": "BE FORWARD",
+    "ref_no": "CE498565",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 7,
+    "price_usd": 18500,
+    "mileage_km": 58933,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce498565/id/16380686/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16380686/CE498565_20f80a8a.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW861545",
+    "source": "BE FORWARD",
+    "ref_no": "BW861545",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 5,
+    "price_usd": 19320,
+    "mileage_km": 142334,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw861545/id/10125789/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202609/10125789/BW861545_212948a9.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE433148",
+    "source": "BE FORWARD",
+    "ref_no": "CE433148",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 5,
+    "price_usd": 19730,
+    "mileage_km": 142000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce433148/id/16316542/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16316542/CE433148_20dc16b6.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BY434405",
+    "source": "BE FORWARD",
+    "ref_no": "BY434405",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 5,
+    "price_usd": 19800,
+    "mileage_km": 130100,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/by434405/id/11582841/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202510/11582841/BY434405_1a140a0a.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE535920",
+    "source": "BE FORWARD",
+    "ref_no": "CE535920",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 4,
+    "price_usd": 19800,
+    "mileage_km": 139455,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce535920/id/16419748/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16419748/CE535920_210aa21c.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD420803",
+    "source": "BE FORWARD",
+    "ref_no": "CD420803",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 6,
+    "price_usd": 20260,
+    "mileage_km": 223530,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd420803/id/15375832/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202606/15375832/CD420803_1f1a3504.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CA059809",
+    "source": "BE FORWARD",
+    "ref_no": "CA059809",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 11,
+    "price_usd": 20270,
+    "mileage_km": 171828,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ca059809/id/12142165/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202508/12142165/CA059809_18a0b41f.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD830598",
+    "source": "BE FORWARD",
+    "ref_no": "CD830598",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 9,
+    "price_usd": 20270,
+    "mileage_km": 95313,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd830598/id/15787591/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202607/15787591/CD830598_1fd9ce19.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE345075",
+    "source": "BE FORWARD",
+    "ref_no": "CE345075",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 5,
+    "price_usd": 20280,
+    "mileage_km": 175122,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce345075/id/16227178/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202609/16227178/CE345075_2152b1a3.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CB530755",
+    "source": "BE FORWARD",
+    "ref_no": "CB530755",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 2,
+    "price_usd": 20760,
+    "mileage_km": 165000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cb530755/id/13592387/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202605/13592387/CB530755_1eb1a789.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CA743396",
+    "source": "BE FORWARD",
+    "ref_no": "CA743396",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 5,
+    "price_usd": 21100,
+    "mileage_km": 192900,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ca743396/id/12832186/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202510/12832186/CA743396_19f75a1b.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE572808",
+    "source": "BE FORWARD",
+    "ref_no": "CE572808",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 9,
+    "price_usd": 21370,
+    "mileage_km": 166350,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce572808/id/16456550/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16456550/CE572808_211b3185.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BY648277",
+    "source": "BE FORWARD",
+    "ref_no": "BY648277",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 10,
+    "price_usd": 21920,
+    "mileage_km": 247308,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/by648277/id/11797972/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/11797972/BY648277_1e84d355.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE358342",
+    "source": "BE FORWARD",
+    "ref_no": "CE358342",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 6,
+    "price_usd": 22540,
+    "mileage_km": 138257,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce358342/id/16239786/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16239786/CE358342_21241978.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD617635",
+    "source": "BE FORWARD",
+    "ref_no": "CD617635",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 10,
+    "price_usd": 22610,
+    "mileage_km": 156484,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd617635/id/15574131/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202606/15574131/CD617635_1f745536.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD633278",
+    "source": "BE FORWARD",
+    "ref_no": "CD633278",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 7,
+    "price_usd": 23220,
+    "mileage_km": 137400,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd633278/id/15589836/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202606/15589836/CD633278_1f7c9c01.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BY494693",
+    "source": "BE FORWARD",
+    "ref_no": "BY494693",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 1,
+    "price_usd": 24310,
+    "mileage_km": 198529,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/by494693/id/11643557/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202511/11643557/BY494693_1a6e27e0.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW447113",
+    "source": "BE FORWARD",
+    "ref_no": "BW447113",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 3,
+    "price_usd": 24370,
+    "mileage_km": 67494,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw447113/id/9707659/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202511/9707659/BW447113_1a6e2828.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BT726090",
+    "source": "BE FORWARD",
+    "ref_no": "BT726090",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 2,
+    "price_usd": 24460,
+    "mileage_km": 106050,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bt726090/id/8117328/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202406/8117328/BT726090_10e2b0a5.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE483514",
+    "source": "BE FORWARD",
+    "ref_no": "CE483514",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 2,
+    "price_usd": 24870,
+    "mileage_km": 141400,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce483514/id/16366812/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16366812/CE483514_20efc066.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW536037",
+    "source": "BE FORWARD",
+    "ref_no": "BW536037",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 5,
+    "price_usd": 25060,
+    "mileage_km": 109400,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw536037/id/9797482/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202511/9797482/BW536037_1a6e280c.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BY584629",
+    "source": "BE FORWARD",
+    "ref_no": "BY584629",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 12,
+    "price_usd": 26030,
+    "mileage_km": 35566,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/by584629/id/11734370/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/11734370/BY584629_1dfb003f.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CD142793",
+    "source": "BE FORWARD",
+    "ref_no": "CD142793",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 3,
+    "price_usd": 26430,
+    "mileage_km": 109399,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cd142793/id/15095702/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202605/15095702/CD142793_1ebe7a39.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CA810283",
+    "source": "BE FORWARD",
+    "ref_no": "CA810283",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 3,
+    "price_usd": 26720,
+    "mileage_km": 75000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ca810283/id/12899593/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202510/12899593/CA810283_1a1a1853.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CC571073",
+    "source": "BE FORWARD",
+    "ref_no": "CC571073",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 3,
+    "price_usd": 27060,
+    "mileage_km": 39000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cc571073/id/14591680/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202603/14591680/CC571073_1dbbad2f.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE580405",
+    "source": "BE FORWARD",
+    "ref_no": "CE580405",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 3,
+    "price_usd": 27400,
+    "mileage_km": 165800,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce580405/id/16464168/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202608/16464168/CE580405_211fcdbd.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CC880025",
+    "source": "BE FORWARD",
+    "ref_no": "CC880025",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 5,
+    "price_usd": 27940,
+    "mileage_km": 121930,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cc880025/id/14902935/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/14902935/CC880025_1e3e92ec.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE674482",
+    "source": "BE FORWARD",
+    "ref_no": "CE674482",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 11,
+    "price_usd": 30830,
+    "mileage_km": 81103,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce674482/id/16558845/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202609/16558845/CE674482_21493fcf.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CE667354",
+    "source": "BE FORWARD",
+    "ref_no": "CE667354",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 11,
+    "price_usd": 32090,
+    "mileage_km": 93500,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/ce667354/id/16552131/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202609/16552131/CE667354_214d0230.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CB295526",
+    "source": "BE FORWARD",
+    "ref_no": "CB295526",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 2,
+    "price_usd": 33430,
+    "mileage_km": 84000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cb295526/id/13354771/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/13354771/CB295526_1e057f78.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BN789928",
+    "source": "BE FORWARD",
+    "ref_no": "BN789928",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 3,
+    "price_usd": 34220,
+    "mileage_km": 52458,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bn789928/id/5245522/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/5245522/BN789928_1de6037b.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW094048",
+    "source": "BE FORWARD",
+    "ref_no": "BW094048",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2001,
+    "month": 2,
+    "price_usd": 34250,
+    "mileage_km": 98513,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw094048/id/9351320/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202506/9351320/BW094048_173b85b7.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW148251",
+    "source": "BE FORWARD",
+    "ref_no": "BW148251",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2000,
+    "month": 10,
+    "price_usd": 35620,
+    "mileage_km": 88903,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw148251/id/9406084/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202510/9406084/BW148251_1a26bebb.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BW594511",
+    "source": "BE FORWARD",
+    "ref_no": "BW594511",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 4,
+    "price_usd": 35950,
+    "mileage_km": 168000,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bw594511/id/9856524/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202511/9856524/BW594511_1a6e2807.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CC880014",
+    "source": "BE FORWARD",
+    "ref_no": "CC880014",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2003,
+    "month": 1,
+    "price_usd": 37510,
+    "mileage_km": 36324,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cc880014/id/14902924/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202604/14902924/CC880014_1e3e921b.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CC806774",
+    "source": "BE FORWARD",
+    "ref_no": "CC806774",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 1,
+    "price_usd": 44660,
+    "mileage_km": 133111,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cc806774/id/14828871/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202607/14828871/CC806774_203a44a6.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-CB603630",
+    "source": "BE FORWARD",
+    "ref_no": "CB603630",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 1999,
+    "month": 6,
+    "price_usd": 45350,
+    "mileage_km": 148750,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/cb603630/id/13665968/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202602/13665968/CB603630_1cb8f902.jpg?w=200"
+    ]
+  },
+  {
+    "id": "beforward-BP094664",
+    "source": "BE FORWARD",
+    "ref_no": "BP094664",
+    "make": "Nissan",
+    "model": "Silvia",
+    "chassis": "S15",
+    "year": 2002,
+    "month": 2,
+    "price_usd": 47950,
+    "mileage_km": 84098,
+    "source_url": "https://sp.beforward.jp/nissan/silvia/bp094664/id/5519880/",
+    "photo_urls": [
+      "https://image-cdn.beforward.jp/medium/202605/5519880/BP094664_1eb64a04.jpg?w=200"
+    ]
+  }
+]
