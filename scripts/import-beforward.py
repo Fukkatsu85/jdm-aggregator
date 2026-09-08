@@ -1,5 +1,6 @@
 import re
 import urllib.request
+import time
 
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
@@ -240,58 +241,86 @@ def extract_listing(link):
 
 def get_s15_listings():
 
-    html = download_html(
-        SEARCH_URL
-    )
-
-    soup = BeautifulSoup(
-        html,
-        "html.parser"
-    )
-
     listings = []
-
     seen = set()
 
+    for page in range(1, 10):
 
-    for link in soup.find_all(
-        "a",
-        href=True
-    ):
+        if page == 1:
+            url = SEARCH_URL
+        else:
+            url = SEARCH_URL + f"/page={page}"
 
-        href = link.get("href", "")
+        print(
+            f"Downloading page {page}..."
+        )
 
+        try:
+            html = download_html(url)
+        except Exception as error:
+            print(
+                f"Stopping at page {page}:",
+                error
+            )
+            break
 
-        # BE FORWARD vehicle detail URLs normally
-        # contain /nissan/silvia/ and /id/
+        soup = BeautifulSoup(
+            html,
+            "html.parser"
+        )
 
-        if (
-            "/nissan/silvia/" not in href.lower()
-            or "/id/" not in href.lower()
+        page_new_count = 0
+
+        for link in soup.find_all(
+            "a",
+            href=True
         ):
-            continue
+
+            href = link.get(
+                "href",
+                ""
+            )
+
+            if (
+                "/nissan/silvia/" not in href.lower()
+                or "/id/" not in href.lower()
+            ):
+                continue
+
+            listing = extract_listing(
+                link
+            )
+
+            if not listing:
+                continue
+
+            ref_no = listing["ref_no"]
+
+            if ref_no in seen:
+                continue
+
+            seen.add(
+                ref_no
+            )
+
+            listings.append(
+                listing
+            )
+
+            page_new_count += 1
 
 
-        listing = extract_listing(
-            link
+        print(
+            f"New listings on page {page}: "
+            f"{page_new_count}"
         )
 
-        if not listing:
-            continue
+
+        if page_new_count == 0:
+            break
 
 
-        ref_no = listing["ref_no"]
-
-        if ref_no in seen:
-            continue
-
-        seen.add(
-            ref_no
-        )
-
-        listings.append(
-            listing
-        )
+        time.sleep(1)
 
 
     return listings
