@@ -23,11 +23,11 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Import BE FORWARD listings
-         run: python scripts/import-beforward.py
+        run: python scripts/import-beforward.py
 
       - name: Import GARAGE-R inventory
-         run: python scripts/import-garage-r.py
-
+        run: python scripts/import-garage-r.py
+        
       - name: Commit updated aggregator listings
         run: |
           git config user.name "github-actions[bot]"
