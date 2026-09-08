@@ -251,36 +251,59 @@ def get_detail_photos(url):
     photos = []
     seen = set()
 
-    # Large gallery images are exposed in links
-    for link in soup.find_all(
-        "a",
-        href=True
-    ):
 
-        image_url = link.get(
-            "href",
-            ""
-        )
+    def add_photo(image_url):
 
-        if (
-            "image-cdn.beforward.jp/large/"
-            not in image_url
-        ):
-            continue
+        if not image_url:
+            return
 
         image_url = urljoin(
             BASE_URL,
             image_url
         )
 
-        if image_url in seen:
-            continue
+        # Always use the high-resolution version.
+        image_url = image_url.replace(
+            "/medium/",
+            "/large/"
+        )
 
-        seen.add(image_url)
+        # Remove resize/query parameters so the same
+        # image cannot appear twice at different sizes.
+        image_url = (
+            image_url
+            .split("?")[0]
+            .split("#")[0]
+        )
+
+        if (
+            "image-cdn.beforward.jp/large/"
+            not in image_url
+        ):
+            return
+
+        # Case-insensitive key catches duplicate JPG/jpg URLs.
+        key = image_url.lower()
+
+        if key in seen:
+            return
+
+        seen.add(key)
         photos.append(image_url)
 
 
-    # Fallback: inspect image attributes too
+    # Gallery links
+    for link in soup.find_all(
+        "a",
+        href=True
+    ):
+
+        add_photo(
+            link.get("href")
+        )
+
+
+    # Gallery image elements
     for image in soup.find_all("img"):
 
         for attribute in [
@@ -289,38 +312,9 @@ def get_detail_photos(url):
             "data-lazy-src"
         ]:
 
-            image_url = image.get(
-                attribute
+            add_photo(
+                image.get(attribute)
             )
-
-            if not image_url:
-                continue
-
-            if (
-                "image-cdn.beforward.jp"
-                not in image_url
-            ):
-                continue
-
-            image_url = urljoin(
-                BASE_URL,
-                image_url
-            )
-
-            image_url = (
-                image_url
-                .replace(
-                    "/medium/",
-                    "/large/"
-                )
-                .split("?")[0]
-            )
-
-            if image_url in seen:
-                continue
-
-            seen.add(image_url)
-            photos.append(image_url)
 
 
     return photos
