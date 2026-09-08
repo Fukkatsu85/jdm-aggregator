@@ -76,7 +76,57 @@ def download_html(url):
             errors="replace"
         )
 
+def get_inventory_price(
+    soup,
+    vehicle_no
+):
 
+    strings = [
+        text.strip()
+        for text in soup.stripped_strings
+        if text.strip()
+    ]
+
+    marker_patterns = [
+        f"車両No. {vehicle_no}",
+        f"車両No.{vehicle_no}",
+        f"車両No {vehicle_no}",
+    ]
+
+    for index, text in enumerate(
+        strings
+    ):
+
+        if text not in marker_patterns:
+            continue
+
+        for candidate in strings[
+            index + 1:index + 10
+        ]:
+
+            if candidate.lower() == "ask":
+                return None
+
+            match = re.fullmatch(
+                r"([\d,.]+)\s*万円",
+                candidate
+            )
+
+            if match:
+
+                value = (
+                    match.group(1)
+                    .replace(",", "")
+                )
+
+                return int(
+                    float(value)
+                    * 10000
+                )
+
+        break
+
+    return None
 def get_inventory():
 
     vehicles = []
@@ -141,14 +191,20 @@ def get_inventory():
 
             seen.add(vehicle_no)
 
-            vehicles.append({
-                "source": "GARAGE-R",
-                "source_id": vehicle_no,
-                "source_url": urljoin(
-                    BASE_URL,
-                    href
-                )
-            })
+            price_jpy = get_inventory_price(
+    soup,
+    vehicle_no
+)
+
+vehicles.append({
+    "source": "GARAGE-R",
+    "source_id": vehicle_no,
+    "source_url": urljoin(
+        BASE_URL,
+        href
+    ),
+    "price_jpy": price_jpy
+})
 
             page_new_count += 1
 
@@ -666,9 +722,12 @@ def fetch_vehicle(vehicle):
                 ),
 
             "price_jpy":
-                parse_price(
-                    soup
-                ),
+    vehicle.get(
+        "price_jpy"
+    )
+    or parse_price(
+        soup
+    ),
 
             "mileage_km":
                 parse_mileage(
