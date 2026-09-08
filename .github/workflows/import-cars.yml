@@ -11,30 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Check out Fukkatsu site
+        uses: actions/checkout@v5
         with:
-          python-version: "3.12"
+          repository: Fukkatsu85/Fukkatsu-site
+          token: ${{ secrets.FUKKATSU_PAT }}
+          path: fukkatsu-site
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Test BE FORWARD S15 import
-        run: python scripts/import-beforward.py
-
-      - name: Commit updated car listings
+      - name: Sync cars to Fukkatsu
         run: |
+          cp data/cars.json fukkatsu-site/Cars/data/cars.json
+
+          cd fukkatsu-site
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/cars.json
+          git add Cars/data/cars.json
 
           if git diff --cached --quiet; then
-            echo "No listing changes to commit."
+            echo "Fukkatsu car inventory already up to date."
           else
-            git commit -m "Update BE FORWARD car listings"
+            git commit -m "Update Fukkatsu Cars inventory"
             git push
-          fi     
+          fi
