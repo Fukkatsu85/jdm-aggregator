@@ -23,7 +23,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Import BE FORWARD S15 listings
-        run: python scripts/import-beforward.py
+        run: python scripts/import-garage-r.py
 
       - name: Commit updated aggregator listings
         run: |
