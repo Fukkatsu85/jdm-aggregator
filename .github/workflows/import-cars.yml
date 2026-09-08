@@ -24,7 +24,7 @@ jobs:
 
       - name: Sync cars to Fukkatsu
         run: |
-          cp "$GITHUB_WORKSPACE/data/cars.json" "$GITHUB_WORKSPACE/fukkatsu-site/Cars/data/cars.json"
+          cp "$RUNNER_TEMP/cars.json" "$GITHUB_WORKSPACE/fukkatsu-site/Cars/data/cars.json"
 
           cd "$GITHUB_WORKSPACE/fukkatsu-site"
 
