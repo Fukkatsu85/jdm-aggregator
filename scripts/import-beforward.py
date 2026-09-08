@@ -11,6 +11,16 @@ from bs4 import BeautifulSoup
 BASE_URL = "https://sp.beforward.jp"
 
 SEARCH_URL = (
+    S13_SEARCH_URLS = [
+    BASE_URL + "/stocklist/make=3/model=452/model_code=S13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=E-S13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=PS13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=E-PS13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=KPS13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=E-KPS13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=KS13",
+    BASE_URL + "/stocklist/make=3/model=452/model_code=E-KS13",
+]
     BASE_URL
     + "/stocklist/make=3/model=452/model_code=S15"
 )
