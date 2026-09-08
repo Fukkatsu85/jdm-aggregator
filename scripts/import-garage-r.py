@@ -34,7 +34,9 @@ MODEL_NAMES = {
     "フェアレディZ": "Fairlady Z",
     "スープラ": "Supra",
     "86": "86",
+    "GR86": "GR86",
     "MR2": "MR2",
+    "MR-S": "MR-S",
     "チェイサー": "Chaser",
     "マークII": "Mark II",
     "スイフト": "Swift",
@@ -76,87 +78,48 @@ def download_html(url):
         )
 
 
-def build_inventory_price_map(soup):
-    strings = [
-        text.strip()
-        for text in soup.stripped_strings
-        if text.strip()
-    ]
+def get_card_price(
+    link,
+    vehicle_no,
+):
+    current = link
 
-    prices = {}
+    for _ in range(15):
+        current = current.parent
 
-    for index, text in enumerate(strings):
-        if "車両No" not in text:
+        if current is None:
+            break
+
+        text = current.get_text(
+            " ",
+            strip=True,
+        )
+
+        if vehicle_no not in text:
             continue
 
-        vehicle_no = None
-
-        number_match = re.search(
-            r"(\d{5,})",
+        price_match = re.search(
+            r"([0-9]+(?:\.[0-9]+)?)"
+            r"\s*万円",
             text,
         )
 
-        if number_match:
-            vehicle_no = (
-                number_match.group(1)
-            )
-
-        else:
-            for candidate in strings[
-                index + 1:index + 4
-            ]:
-                number_match = re.fullmatch(
-                    r"\d{5,}",
-                    candidate,
-                )
-
-                if number_match:
-                    vehicle_no = candidate
-                    break
-
-        if not vehicle_no:
-            continue
-
-        price_jpy = None
-
-        for candidate in strings[
-            index + 1:index + 15
-        ]:
-            candidate_clean = (
-                candidate.strip()
-            )
-
-            if (
-                candidate_clean.lower()
-                == "ask"
-            ):
-                price_jpy = None
-                break
-
-            price_match = re.search(
-                r"([\d,.]+)"
-                r"\s*万円",
-                candidate_clean,
-            )
-
-            if price_match:
-                numeric = (
+        if price_match:
+            return int(
+                float(
                     price_match.group(1)
-                    .replace(",", "")
                 )
+                * 10000
+            )
 
-                price_jpy = int(
-                    float(numeric)
-                    * 10000
-                )
+        if re.search(
+            r"\bAsk\b",
+            text,
+            flags=re.I,
+        ):
+            return None
 
-                break
-
-        prices[vehicle_no] = (
-            price_jpy
-        )
-
-    return prices
+    return None
 
 
 def get_inventory():
@@ -194,13 +157,8 @@ def get_inventory():
             "html.parser",
         )
 
-        price_map = (
-            build_inventory_price_map(
-                soup
-            )
-        )
-
         page_new_count = 0
+        page_price_count = 0
 
         for link in soup.find_all(
             "a",
@@ -228,6 +186,14 @@ def get_inventory():
 
             seen.add(vehicle_no)
 
+            price_jpy = get_card_price(
+                link,
+                vehicle_no,
+            )
+
+            if price_jpy is not None:
+                page_price_count += 1
+
             vehicles.append({
                 "source":
                     "GARAGE-R",
@@ -242,9 +208,7 @@ def get_inventory():
                     ),
 
                 "price_jpy":
-                    price_map.get(
-                        vehicle_no
-                    ),
+                    price_jpy,
             })
 
             page_new_count += 1
@@ -258,12 +222,7 @@ def get_inventory():
         print(
             f"Prices found on page "
             f"{page}: "
-            f"{sum(
-                1
-                for value
-                in price_map.values()
-                if value is not None
-            )}"
+            f"{page_price_count}"
         )
 
         if page_new_count == 0:
@@ -393,52 +352,6 @@ def parse_mileage(value):
                 match.group(1)
             )
         )
-
-    return None
-
-
-def parse_detail_price(soup):
-    strings = [
-        text.strip()
-        for text in soup.stripped_strings
-        if text.strip()
-    ]
-
-    for index, text in enumerate(strings):
-        if (
-            "車両本体価格"
-            not in text
-            and
-            "本体価格"
-            not in text
-        ):
-            continue
-
-        sample = " ".join(
-            strings[
-                index:index + 8
-            ]
-        )
-
-        if "ASK" in sample.upper():
-            return None
-
-        match = re.search(
-            r"([\d,.]+)"
-            r"\s*万円",
-            sample,
-        )
-
-        if match:
-            numeric = (
-                match.group(1)
-                .replace(",", "")
-            )
-
-            return int(
-                float(numeric)
-                * 10000
-            )
 
     return None
 
@@ -713,24 +626,6 @@ def fetch_vehicle(vehicle):
             vehicle_no,
         )
 
-        inventory_price = (
-            vehicle.get(
-                "price_jpy"
-            )
-        )
-
-        if inventory_price is None:
-            price_jpy = (
-                parse_detail_price(
-                    soup
-                )
-            )
-
-        else:
-            price_jpy = (
-                inventory_price
-            )
-
         car = {
             "id":
                 f"garage-r-"
@@ -762,7 +657,9 @@ def fetch_vehicle(vehicle):
                 ),
 
             "price_jpy":
-                price_jpy,
+                vehicle.get(
+                    "price_jpy"
+                ),
 
             "mileage_km":
                 parse_mileage(
