@@ -450,59 +450,54 @@ def main():
 
     cars = []
 
-with ThreadPoolExecutor(
-    max_workers=10
-) as executor:
+    with ThreadPoolExecutor(
+        max_workers=5
+    ) as executor:
 
-    futures = [
-        executor.submit(
+        results = executor.map(
             fetch_gallery,
-            listing
-        )
-        for listing in listings
-    ]
-
-    for index, future in enumerate(
-        as_completed(futures),
-        start=1
-    ):
-
-        listing, photos, error = (
-            future.result()
+            listings
         )
 
-        print(
-            f"Gallery {index}/{len(listings)}: "
-            f"{listing['ref_no']}"
-        )
+        for index, result in enumerate(
+            results,
+            start=1
+        ):
 
-        if error:
+            listing, photos, error = result
+
             print(
-                "  Gallery error:",
-                error
+                f"Gallery {index}/{len(listings)}: "
+                f"{listing['ref_no']}"
             )
 
-        print(
-            f"  Photos found: "
-            f"{len(photos)}"
-        )
+            if error:
+                print(
+                    "  Gallery error:",
+                    error
+                )
 
-        car = {
-            "id": f"beforward-{listing['ref_no']}",
-            "source": "BE FORWARD",
-            "ref_no": listing["ref_no"],
-            "make": listing["make"],
-            "model": listing["model"],
-            "chassis": listing["chassis"],
-            "year": listing["year"],
-            "month": listing["month"],
-            "price_usd": listing["price_usd"],
-            "mileage_km": listing["mileage_km"],
-            "source_url": listing["source_url"],
-            "photo_urls": photos
-        }
+            print(
+                f"  Photos found: "
+                f"{len(photos)}"
+            )
 
-        cars.append(car)
+            car = {
+                "id": f"beforward-{listing['ref_no']}",
+                "source": "BE FORWARD",
+                "ref_no": listing["ref_no"],
+                "make": listing["make"],
+                "model": listing["model"],
+                "chassis": listing["chassis"],
+                "year": listing["year"],
+                "month": listing["month"],
+                "price_usd": listing["price_usd"],
+                "mileage_km": listing["mileage_km"],
+                "source_url": listing["source_url"],
+                "photo_urls": photos
+            }
+
+            cars.append(car)
 
     with open(
         "data/cars.json",
