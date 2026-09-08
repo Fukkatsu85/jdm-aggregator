@@ -148,33 +148,53 @@ def get_inventory():
 
 def parse_table_values(soup):
 
+    labels = [
+        "年式",
+        "走行距離",
+        "修理歴",
+        "改造/チューニング内容",
+        "特記事項",
+        "外装色",
+        "型式",
+        "グレード",
+        "乗車定員",
+        "排気量",
+        "ハンドル",
+        "ボディタイプ",
+        "燃料",
+        "シフト",
+        "駆動方式",
+    ]
+
     values = {}
 
-    for row in soup.find_all("tr"):
+    strings = [
+        text.strip()
+        for text in soup.stripped_strings
+        if text.strip()
+    ]
 
-        cells = row.find_all(
-            ["th", "td"]
-        )
+    for index, text in enumerate(strings):
 
-        texts = [
-            cell.get_text(
-                " ",
-                strip=True
-            )
-            for cell in cells
-        ]
+        for label in labels:
 
-        for index in range(
-            0,
-            len(texts) - 1,
-            2
-        ):
+            if text == label:
 
-            key = texts[index].strip()
-            value = texts[index + 1].strip()
+                if index + 1 < len(strings):
+                    values[label] = (
+                        strings[index + 1]
+                    )
 
-            if key and value:
-                values[key] = value
+                continue
+
+            if text.startswith(label):
+
+                value = text[
+                    len(label):
+                ].strip()
+
+                if value:
+                    values[label] = value
 
     return values
 
@@ -423,7 +443,7 @@ def fetch_vehicle(vehicle):
             soup
         )
 
-        title_tag = soup.find("h2")
+        title_tag = soup.find("h1")
 
         title = (
             title_tag.get_text(
