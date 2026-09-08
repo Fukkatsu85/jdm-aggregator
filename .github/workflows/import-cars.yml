@@ -22,15 +22,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Import BE FORWARD S15 listings
-        run: python scripts/import-garage-r.py
+      - name: Import BE FORWARD listings
+         run: python scripts/import-beforward.py
+
+      - name: Import GARAGE-R inventory
+         run: python scripts/import-garage-r.py
 
       - name: Commit updated aggregator listings
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/cars.json
+          git add data/cars.json data/garage-r-ids.json
 
           if git diff --cached --quiet; then
             echo "Aggregator inventory already up to date."
