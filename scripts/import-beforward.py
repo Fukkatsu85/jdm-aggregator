@@ -239,7 +239,92 @@ def extract_listing(link):
 
     return listing
 
+def get_detail_photos(url):
 
+    html = download_html(url)
+
+    soup = BeautifulSoup(
+        html,
+        "html.parser"
+    )
+
+    photos = []
+    seen = set()
+
+    # Large gallery images are exposed in links
+    for link in soup.find_all(
+        "a",
+        href=True
+    ):
+
+        image_url = link.get(
+            "href",
+            ""
+        )
+
+        if (
+            "image-cdn.beforward.jp/large/"
+            not in image_url
+        ):
+            continue
+
+        image_url = urljoin(
+            BASE_URL,
+            image_url
+        )
+
+        if image_url in seen:
+            continue
+
+        seen.add(image_url)
+        photos.append(image_url)
+
+
+    # Fallback: inspect image attributes too
+    for image in soup.find_all("img"):
+
+        for attribute in [
+            "src",
+            "data-src",
+            "data-lazy-src"
+        ]:
+
+            image_url = image.get(
+                attribute
+            )
+
+            if not image_url:
+                continue
+
+            if (
+                "image-cdn.beforward.jp"
+                not in image_url
+            ):
+                continue
+
+            image_url = urljoin(
+                BASE_URL,
+                image_url
+            )
+
+            image_url = (
+                image_url
+                .replace(
+                    "/medium/",
+                    "/large/"
+                )
+                .split("?")[0]
+            )
+
+            if image_url in seen:
+                continue
+
+            seen.add(image_url)
+            photos.append(image_url)
+
+
+    return photos
+    
 def get_s15_listings():
 
     listings = []
