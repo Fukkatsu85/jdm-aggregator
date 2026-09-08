@@ -657,36 +657,36 @@ def main():
 
     s13_listings = get_s13_listings()
 
-print()
-print(
-    f"FOUND S13 LISTINGS: "
-    f"{len(s13_listings)}"
-)
+    print()
+    print(
+        f"FOUND S13 LISTINGS: "
+        f"{len(s13_listings)}"
+    )
 
 
-print()
-print(
-    "Downloading BE FORWARD "
-    "S14 inventory..."
-)
+    print()
+    print(
+        "Downloading BE FORWARD "
+        "S14 inventory..."
+    )
 
-s14_listings = get_s14_listings()
+    s14_listings = get_s14_listings()
 
-print()
-print(
-    f"FOUND S14 LISTINGS: "
-    f"{len(s14_listings)}"
-)
+    print()
+    print(
+        f"FOUND S14 LISTINGS: "
+        f"{len(s14_listings)}"
+    )
 
 
-listings = []
-seen = set()
+    listings = []
+    seen = set()
 
-for listing in (
-    s15_listings +
-    s14_listings +
-    s13_listings
-):
+    for listing in (
+        s15_listings +
+        s14_listings +
+        s13_listings
+    ):
 
         ref_no = listing["ref_no"]
 
@@ -756,19 +756,7 @@ for listing in (
 
             cars.append(car)
 
-print()
-print(
-    "Downloading BE FORWARD "
-    "S14 inventory..."
-)
 
-s14_listings = get_s14_listings()
-
-print()
-print(
-    f"FOUND S14 LISTINGS: "
-    f"{len(s14_listings)}"
-)
     with open(
         "data/cars.json",
         "w",
