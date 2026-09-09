@@ -2171,31 +2171,10 @@
     "chassis": "S14",
     "year": 1997,
     "month": 1,
-    "price_usd": 16960,
+    "price_usd": null,
     "mileage_km": 133071,
     "source_url": "https://sp.beforward.jp/nissan/silvia/ce597525/id/16482185/",
-    "photo_urls": [
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06d8.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06d9.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06da.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06db.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06dc.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06dd.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06de.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06df.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e0.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e1.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e2.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e3.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e4.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e5.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e6.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e7.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e8.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06e9.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06ea.jpg",
-      "https://image-cdn.beforward.jp/large/202609/16482185/CE597525_215a06eb.jpg"
-    ]
+    "photo_urls": []
   },
   {
     "id": "beforward-CA399872",
