@@ -27,7 +27,10 @@ jobs:
 
       - name: Import GARAGE-R inventory
         run: python scripts/import-garage-r.py
-        
+
+      - name: Merge car inventories
+        run: python scripts/merge-cars.py
+
       - name: Commit updated aggregator listings
         run: |
           git config user.name "github-actions[bot]"
@@ -38,11 +41,11 @@ jobs:
           if git diff --cached --quiet; then
             echo "Aggregator inventory already up to date."
           else
-            git commit -m "Update BE FORWARD car listings"
+            git commit -m "Update combined JDM car listings"
             git push
           fi
 
-      - name: Stage car inventory for sync
+      - name: Stage combined car inventory for sync
         run: |
           cp data/cars.json "$RUNNER_TEMP/cars.json"
 
@@ -53,7 +56,7 @@ jobs:
           token: ${{ secrets.FUKKATSU_PAT }}
           path: fukkatsu-site
 
-      - name: Sync cars to Fukkatsu
+      - name: Sync combined cars to Fukkatsu
         run: |
           cp "$RUNNER_TEMP/cars.json" "$GITHUB_WORKSPACE/fukkatsu-site/Cars/data/cars.json"
 
